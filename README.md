@@ -11,7 +11,7 @@ Ensuite, suivez ces étapes pour installer et exécuter le programme :
 1. Clonez ce dépôt dans le répertoire de votre choix en utilisant la commande suivante :
 
    ```bash
-   git clone https://github.com/Anthony-landry/P4-ChessTournaments.git
+   git clone https://github.com/myrteza-labi/ocr-4-py
    ```
 
 2. Accédez au dossier P4-ChessTournaments.
@@ -88,7 +88,4 @@ Pour générer le rapport Flake8, suivez ces étapes :
    ```
 
 Le rapport sera généré dans le dossier "flake-report".
-# ocr-4-python
-# ocr-4-python
-# ocr-4-py
 # ocr-4-py
