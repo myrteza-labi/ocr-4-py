@@ -58,9 +58,9 @@ class ReportController:
             self.write_title_in_report(fichier, title)
             print("\n le nom du tournoi : " + tournament.nom)
             print(
-                "\n la date début : "
+                "\n la date de début : "
                 + tournament.date_de_debut
-                + "  la date début : "
+                + "  la date de fin : "
                 + tournament.date_de_fin
             )
             print("\n")
