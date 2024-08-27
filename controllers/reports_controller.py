@@ -49,7 +49,6 @@ class ReportController:
         fichier.close()
 
     def name_and_date_tournament(self):
-        # affichier la liste des tournois + selection.
         list_all_tournament = load_tournement_all_tournament()
         tournament = self.reportView.show_select_in_list(list_all_tournament, "tournoi")
         if tournament:

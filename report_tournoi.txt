@@ -74,3 +74,56 @@ Name and date tournament !
 ==========================
 
 TheBigGame 27-08-2024-19:20:55 27-08-2024-19:30:20
+
+==========================
+Name and date tournament !
+==========================
+
+TheBigGame 27-08-2024-19:20:55 27-08-2024-19:30:20
+
+====================
+list player sorted !
+====================
+
+Tournoi: TheBigGame
+
+Jhon  Doe (0)
+baptiste  jean (0)
+
+=================================
+All rounds and all match report !
+=================================
+
+Tournoi: TheBigGame
+
+
+Round 1 27-08-2024-19:28:25 27-08-2024-19:30:20
+=================================
+All rounds and all match report !
+=================================
+
+Tournoi: BigBang
+
+
+Round 1 27-08-2024-19:28:25 27-08-2024-19:29:33
+Boris vs David
+le vainqueur est David
+
+baptiste vs Jhon
+le vainqueur est baptiste
+
+Round 2 27-08-2024-19:28:25 27-08-2024-19:29:41
+David vs baptiste
+le vainqueur est David
+
+Boris vs Jhon
+le vainqueur est Jhon
+
+==================
+List all players !
+==================
+
+Antoine Dupont (0)
+Crash Bandicoot (0)
+Lara Croft (0)
+Marios Bros (0)

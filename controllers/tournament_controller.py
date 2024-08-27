@@ -106,10 +106,6 @@ class TournamentController:
                 f"{player_paire.player2[0].get_color_str()}"
             )
 
-            """
-             saisie du resultat ( qui a gagné ? ou equalité ?)
-             player =  noir ou player = blanc
-            """
             vainqueur = self.view.select_one_in_list(
                 ["Blanc", "Noir", "Egalité"], "resultat"
             )
@@ -190,18 +186,26 @@ class TournamentController:
             player.save()
 
     def generation_paire(self, list_joueurs, name):
-        # representation d'un match ([ j , S ],[j ;  S ])
-        # liste_joueurs sous la forme d'une liste de PlayerModel
         liste_paire_joueurs = []
+        
+        random.shuffle(list_joueurs)
+
         for x in range(0, len(list_joueurs), 2):
-            list_joueurs[x].couleur = random.choice([NOIR, BLANC])
-            # ou 0 ou 1 (noir), sinon on peux utilisé un bool et inversé le resulat pour l'autre
-            list_joueurs[x + 1].couleur = NOIR - list_joueurs[x].couleur
+            list_joueurs[x].couleur = BLANC
+            list_joueurs[x + 1].couleur = NOIR
+            
             instance_match = MatchModel(list_joueurs[x], list_joueurs[x + 1])
             liste_paire_joueurs.append(instance_match)
 
         round = RoundModel(name, liste_paire_joueurs)
         return round
+
+
+    def swap_player_colors_if_needed(self, player1, player2):
+        if player1.couleur == player2.couleur:
+            player1.couleur = NOIR if player1.couleur == BLANC else BLANC
+            player2.couleur = NOIR if player2.couleur == BLANC else BLANC
+
 
     def generation_paire_by_score(self, list_joueurs, name) -> RoundModel:
         list_pairing = []
@@ -212,18 +216,21 @@ class TournamentController:
         for player_white in list_joueurs_sorted:
             if player_white not in players_selected:
                 players_selected.append(player_white)
-                # looking for player black
                 for player_black in list_joueurs_sorted:
                     if (
                         player_black not in players_selected
                         and not self.match_deja_joue(player_white, player_black)
                     ):
+                        self.swap_player_colors_if_needed(player_white, player_black)
+
                         instance_match = MatchModel(player_white, player_black)
                         list_pairing.append(instance_match)
                         players_selected.append(player_black)
                         break
         round = RoundModel(name, list_pairing)
         return round
+
+
 
     def match_deja_joue(self, j1, j2):
         global liste_match_deja_joue
