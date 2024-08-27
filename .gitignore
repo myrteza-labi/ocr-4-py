@@ -1,0 +1,6 @@
+/.idea/*
+venv
+*.json
+*.pyc
+env
+env/
