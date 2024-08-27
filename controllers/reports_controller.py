@@ -56,11 +56,11 @@ class ReportController:
             fichier = open("report_tournoi.txt", "a")
             title = "Name and date tournament !"
             self.write_title_in_report(fichier, title)
-            print("\n le nom du tournoi : " + tournament.nom)
+            print("\n Nom du tournoi : " + tournament.nom)
             print(
-                "\n la date de début : "
+                "\n Date de début : "
                 + tournament.date_de_debut
-                + "  la date de fin : "
+                + "  Date de fin : "
                 + tournament.date_de_fin
             )
             print("\n")
