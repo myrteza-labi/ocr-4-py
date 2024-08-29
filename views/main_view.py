@@ -7,14 +7,14 @@ from controllers.tournament_controller import TournamentController
 class MainView(View):
     def show_menu(self):
         menu = [
-            "1 : Créer un joueur.",
-            "2 : Créer un tournoi.",
-            "3 : Reprendre un tournoi en cours.",
-            "4 : Voir les rapports.",
-            "q : sortir.",
+            "1 : Créer un joueur",
+            "2 : Créer un tournoi",
+            "3 : Reprendre un tournoi en cours",
+            "4 : Voir les rapports",
+            f"\033[91mQ : Quitter l'application\033[0m"
         ]
         choix_utilisateur = self.affichage_menu(
-            "ÉCRAN D'ACCUEIL", menu, ["1", "2", "3", "4", "q"]
+            f"\n\033[93m MENU PRINCIPAL\033[0m\n", menu, ["1", "2", "3", "4", "q"]
         )
 
         match choix_utilisateur:

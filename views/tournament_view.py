@@ -9,13 +9,13 @@ PLAYER_2 = 1
 
 class TournamentView(View):
     def show_menu(self):
-        nom = self.input_str("nom: ")
-        lieu = self.input_str("entrez un lieu: ")
+        nom = self.city_input("Entrez le nom du tournois: ")
+        lieu = self.city_input("Veuillez indiquer la ville où se déroule le tournoi : ")
         date_de_debut = get_timestamp()
         all_player = PlayerModel.get_all_player_from_db()
         while True:
             nombre_de_tours = self.input_int(
-                "nombre de tour (defaut : 4): ", defaut_value=4
+                "Indiquez le nombre de tours ou appuyez sur Entrée pour sélectionner 4 tours par défaut :", defaut_value=4
             )
             if nombre_de_tours * 2 > len(all_player):
                 print(
@@ -42,7 +42,6 @@ class TournamentView(View):
         )
 
     def show_menu_load(self, list_tournament):
-        print("====================================")
         while True:
             if list_tournament == []:
 
@@ -52,12 +51,13 @@ class TournamentView(View):
             else:
                 for idx, tournament in enumerate(list_tournament):
                     print(
-                        f"[{idx}] {tournament.nom} {tournament.lieu} ( {tournament.date_de_debut} )"
+                        f"[{idx}] \033[36m{tournament.nom}\033[0m {tournament.lieu.upper()} ( {tournament.date_de_debut} )"
                     )
 
                 tournament_id_select = self.input_int(
-                    "Selectionnez le tournois qu'il faut reprendre: "
+                    "\n\033[93mVeuillez sélectionner le tournoi à reprendre : \033[0m\n"
                 )
+
                 if tournament_id_select in range(len(list_tournament)):
                     return list_tournament[tournament_id_select]
                 else:
@@ -68,15 +68,10 @@ class TournamentView(View):
                     )
 
     def show_match_player(self, list_match):
-        # +++ round.list_match = list_match) +++
         for player_paire in list_match:
-            # Nom [Couleur ]   VS Nom [Couleur ]   VS
-            # ...
             print(
                 f"{player_paire.player1[0].nom} {player_paire.player1[0].get_color_str()}  VS "
                 f"{player_paire.player2[0].nom} {player_paire.player2[0].get_color_str()} "
             )
-
-            # Enter pour demarrer
-
-        input("appuyez 'enter' pour demarrer")
+            
+        input("\nAppuyez sur la touche \033[36m'Entrer'\033[0m pour demarrer")

@@ -1,10 +1,17 @@
 import random
-
+import os
 from models.tournament_model import TournamentModel, load_tournement_all_tournament
 from views.tournament_view import TournamentView
 from models.round_model import RoundModel
 from models.match_model import MatchModel
 
+RED = '\033[91m'
+GREEN = '\033[92m'
+YELLOW = '\033[93m'
+BLUE = '\033[94m'
+CYAN = '\033[96m'
+WHITE = '\033[97m'
+RESET = '\033[0m'
 
 BLANC = 0
 NOIR = 1
@@ -47,20 +54,18 @@ class TournamentController:
         list_tournament = load_tournement_all_tournament(only_not_finish=True)
 
         self.tournament = self.view.show_menu_load(list_tournament)
-        # On recupere les données du tournoi "name" dans tinyDB
         if self.tournament is not None:
             self.extract_match_deja_joue()
             self.start_tournament()
         else:
-            print("Aucun tournoi n'a été initialisé")
+            print(f"{RED}Aucun tournoi n'a été initialisé{RESET}")
 
     def start_tournament(self):
         if self.tournament:
-            # on mélange la liste des joueurs.
             random.shuffle(self.tournament.liste_joueurs_enregistres)
-            # print(self.tournament.liste_joueurs_enregistres)
             while self.tournament.numero_de_tour < self.tournament.nombre_de_tours:
-                print(f" --- ROUND {self.tournament.numero_de_tour + 1}---")
+                os.system("clear")
+                print(f"{BLUE} --- ROUND {self.tournament.numero_de_tour + 1}---\n{RESET}")
                 if not liste_match_deja_joue:
                     round = self.generation_paire(
                         self.tournament.liste_joueurs_enregistres,
@@ -72,9 +77,7 @@ class TournamentController:
                         f"Round {self.tournament.numero_de_tour +1}",
                     )
                 self.view.show_match_player(round.liste_match)
-                # +++++++++++++++++++++++++++++++++++++++++++++++
                 self.scoring_player(round.liste_match)
-                # ++++++++++++++++++++++++++++++++++++++++++++++++
                 self.tournament.liste_des_tours.append(round)
                 self.inc_tour()
                 round.finish()
@@ -84,13 +87,12 @@ class TournamentController:
                 self.saveAllPlayer()
             self.tournament.finish()
             self.tournament.save()
-
+            print(f"{GREEN}Le tournoi est terminé !{RESET}")
         else:
-            print("Tournament pas init")
+            print(f"{RED}Tournament pas init{RESET}")
 
     def scoring_player(self, liste_match):
         num_match = 1
-        # Affichage du round Player 1 VS Player 2
         for player_paire in liste_match:
             liste_match_deja_joue.append(
                 (
@@ -98,16 +100,17 @@ class TournamentController:
                     player_paire.player2[0].identifiant_national,
                 )
             )
-            print(f" --- Match {num_match}---")
+            os.system("clear")
+            print(f"{YELLOW} --- Match {num_match}---{RESET}")
             print(
-                f"{player_paire.player1[0].nom} {player_paire.player1[0].prenom}"
-                f" {player_paire.player1[0].get_color_str()}\n"
-                f"{player_paire.player2[0].nom} {player_paire.player2[0].prenom} "
-                f"{player_paire.player2[0].get_color_str()}"
+                f"{CYAN}{player_paire.player1[0].nom} {player_paire.player1[0].prenom}{RESET} "
+                f"{WHITE}{player_paire.player1[0].get_color_str()}{RESET}\n"
+                f"{CYAN}{player_paire.player2[0].nom} {player_paire.player2[0].prenom}{RESET} "
+                f"{WHITE}{player_paire.player2[0].get_color_str()}{RESET}"
             )
 
             vainqueur = self.view.select_one_in_list(
-                ["Blanc", "Noir", "Egalité"], "resultat"
+                ["Vainqueur BLANC", "Vainqueur NOIR", "Egalité"], "Résultat"
             )
 
             if vainqueur == "Blanc":
@@ -116,9 +119,7 @@ class TournamentController:
                         player_paire.player1[0],
                         player_paire.player1[1] + 1,
                     )
-
-                    print(f"le joueur {player_paire.player1[0].nom} à gagner 1 point.")
-
+                    print(f"{GREEN}Le joueur {player_paire.player1[0].nom} a gagné 1 point.{RESET}")
                     self.add_score_player(
                         player_paire.player1[0].identifiant_national, 1
                     )
@@ -130,8 +131,7 @@ class TournamentController:
                         player_paire.player2[0],
                         player_paire.player2[1] + 1,
                     )
-                    print(f"le joueur {player_paire.player2[0].nom} à gagner 1 point.")
-
+                    print(f"{GREEN}Le joueur {player_paire.player2[0].nom} a gagné 1 point.{RESET}")
                     self.add_score_player(
                         player_paire.player2[0].identifiant_national, 1
                     )
@@ -145,7 +145,7 @@ class TournamentController:
                         player_paire.player1[0],
                         player_paire.player1[1] + 1,
                     )
-                    print(f"le joueur {player_paire.player1[0].nom} a gagner 1 point.")
+                    print(f"{GREEN}Le joueur {player_paire.player1[0].nom} a gagné 1 point.{RESET}")
                     self.add_score_player(
                         player_paire.player1[0].identifiant_national, 1
                     )
@@ -157,7 +157,7 @@ class TournamentController:
                         player_paire.player2[0],
                         player_paire.player2[1] + 1,
                     )
-                    print(f"le joueur {player_paire.player2[0].nom} a gagner 1 point.")
+                    print(f"{GREEN}Le joueur {player_paire.player2[0].nom} a gagné 1 point.{RESET}")
                     self.add_score_player(
                         player_paire.player2[0].identifiant_national, 1
                     )
@@ -176,10 +176,11 @@ class TournamentController:
 
                 self.add_score_player(player_paire.player1[0].identifiant_national, 0.5)
                 self.add_score_player(player_paire.player2[0].identifiant_national, 0.5)
-                print("Match nul 0.5 point pour chaque joueur.")
+                print(f"{YELLOW}Match nul ! 0.5 point pour chaque joueur.{RESET}")
 
             # sauvegarde le match
             num_match += 1
+            os.system("clear")
 
     def saveAllPlayer(self):
         for player in self.tournament.liste_joueurs_enregistres:
@@ -255,6 +256,7 @@ class TournamentController:
 
     def inc_tour(self):
         self.tournament.numero_de_tour += 1
+        print(f"{BLUE}Le tournoi passe au tour {self.tournament.numero_de_tour}!{RESET}")
 
     def extract_match_deja_joue(self):
         global liste_match_deja_joue
@@ -271,6 +273,6 @@ class TournamentController:
 
     def __str__(self):
         if self.tournament:
-            return "Tournois init\n"
+            return f"{GREEN}Tournoi initialisé\n{RESET}"
         else:
-            return "Tournois pas init\n"
+            return f"{RED}Tournoi non initialisé\n{RESET}"
