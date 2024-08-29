@@ -29,7 +29,7 @@ class MainView(View):
             case "4":
                 report_instance = ReportController()
                 report_instance.create_report()
-            case "q":
+            case "Q":
                 return True
             case _:
                 print("Erreur")
